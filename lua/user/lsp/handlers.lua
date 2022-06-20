@@ -49,7 +49,7 @@ local function lsp_highlight_document(client)
   -- To get the highlighted color, I opened Apple's Digital Color
   -- Meter and got the RGB of the line highlight, then added 21 to each
   -- value, finally converted the RGB value to hex.
-  if client.resolved_capabilities.document_highlight then
+  if client.server_capabilities.document_highlight then
     vim.api.nvim_exec(
       [[
       hi LspReferenceRead  guibg=#1D4955
@@ -94,7 +94,7 @@ M.on_attach = function(client, bufnr)
 -- vim.notify(client.name .. " starting...")
 -- TODO: refactor this into a method that checks if string in list
   if client.name == "tsserver" then
-    client.resolved_capabilities.document_formatting = false
+    client.server_capabilities.document_formatting = false
   end
   lsp_keymaps(bufnr)
   lsp_highlight_document(client)
