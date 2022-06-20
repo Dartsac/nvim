@@ -54,10 +54,15 @@ return packer.startup(function(use)
   use "akinsho/toggleterm.nvim"
   use "ahmedkhalf/project.nvim"
   use "lewis6991/impatient.nvim"
+  use "BurntSushi/ripgrep"
+  use "sharkdp/fd"
   use "lukas-reineke/indent-blankline.nvim"
   use "goolord/alpha-nvim"
   use "antoinemadec/FixCursorHold.nvim" -- This is needed to fix lsp doc highlight
   use "folke/which-key.nvim"
+  use "aklt/plantuml-syntax" -- This allows me to use plantUML in vim
+  use "weirongxu/plantuml-previewer.vim" -- plantUML previewer
+  use "tyru/open-browser.vim" -- Opens the plantUML previewer in the browser
 
   -- Colorschemes
   -- use "lunarvim/colorschemes" -- A bunch of colorschemes you can try out
