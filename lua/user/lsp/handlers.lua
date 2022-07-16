@@ -53,9 +53,9 @@ local function lsp_highlight_document(client)
     vim.api.nvim_exec(
       [[
 
-      hi LspReferenceRead  guibg=#53535C
-		  hi LspReferenceText  guibg=#53535C
-		  hi LspReferenceWrite guibg=#53535C
+      hi LspReferenceRead  guibg=#727379
+		  hi LspReferenceText  guibg=#727379
+		  hi LspReferenceWrite guibg=#727379
 
       augroup lsp_document_highlight
         autocmd! * <buffer>
@@ -89,7 +89,7 @@ local function lsp_keymaps(bufnr)
   )
   vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-  vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
+  vim.cmd [[ command! Format execute 'lua vim.lsp.buf.format()' ]]
 end
 
 M.on_attach = function(client, bufnr)
