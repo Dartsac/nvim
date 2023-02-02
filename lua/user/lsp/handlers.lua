@@ -69,6 +69,17 @@ local function lsp_keymaps(bufnr)
 	keymap(bufnr, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
 	keymap(bufnr, "n", "<leader>ls", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
 	keymap(bufnr, "n", "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
+
+	-- Format on save
+	vim.api.nvim_create_autocmd("BufWritePre", {
+		group = vim.api.nvim_create_augroup("LspFormatting", { clear = true }),
+		buffer = bufnr,
+		callback = function()
+			vim.lsp.buf.format({ async = false }, function()
+				vim.api.nvim_command("w")
+			end)
+		end,
+	})
 end
 
 M.on_attach = function(client, bufnr)
