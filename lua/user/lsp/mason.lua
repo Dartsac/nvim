@@ -35,8 +35,11 @@ end
 
 local opts = {}
 
+-- This is passing the setting based on the name of the language server
+-- Current options is jsonls, pyright, sumneko_lua
 for _, server in pairs(servers) do
 	opts = {
+		-- passing these functions from handlers
 		on_attach = require("user.lsp.handlers").on_attach,
 		capabilities = require("user.lsp.handlers").capabilities,
 	}
@@ -50,3 +53,5 @@ for _, server in pairs(servers) do
 
 	lspconfig[server].setup(opts)
 end
+
+--TODO: I believe this is where I would add the typescript stuff here.
