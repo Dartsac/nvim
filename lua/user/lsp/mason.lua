@@ -1,12 +1,10 @@
 local servers = {
-	"sumneko_lua",
 	"cssls",
 	"html",
-	"tsserver",
-	"pyright",
-	-- "bashls",
 	"jsonls",
-	-- "yamlls",
+	"pyright",
+	"sumneko_lua",
+	"tsserver",
 }
 
 local settings = {
@@ -50,8 +48,17 @@ for _, server in pairs(servers) do
 	if require_ok then
 		opts = vim.tbl_deep_extend("force", conf_opts, opts)
 	end
-
-	lspconfig[server].setup(opts)
+	if server == "tsserver" then
+		local ts_ok, ts = pcall(require, "typescript")
+		if not ts_ok then
+			return
+		end
+		ts.setup({
+			server = opts,
+		})
+	else
+		lspconfig[server].setup(opts)
+	end
 end
 
 --TODO: I believe this is where I would add the typescript stuff here.

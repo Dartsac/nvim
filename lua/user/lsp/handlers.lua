@@ -62,7 +62,7 @@ M.setup = function()
 end
 
 -- local function to define keymaps for LSP features in Vim
-local function lsp_keymaps(bufnr)
+local function lsp_keymaps(bufnr, isTsserver)
 	-- table to store options for key mappings
 	local opts = { noremap = true, silent = true }
 	-- shorthand for setting key maps
@@ -99,12 +99,19 @@ local function lsp_keymaps(bufnr)
 	keymap(bufnr, "n", "<leader>ls", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
 	-- <leader>lq maps to set location list for diagnostincs
 	keymap(bufnr, "n", "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
+	if isTsserver == true then
+		keymap(bufnr, "n", "<leader>o", "<cmd>TypescriptAddMissingImports<CR>", opts)
+	end
 
 	-- Format on save
 	vim.api.nvim_create_autocmd("BufWritePre", {
 		group = vim.api.nvim_create_augroup("LspFormatting", { clear = true }),
 		buffer = bufnr,
 		callback = function()
+			if isTsserver == true then
+				require("typescript").actions.removeUnused({ sync = true })
+				require("typescript").actions.organizeImports({ sync = true })
+			end
 			vim.lsp.buf.format({ async = false }, function()
 				vim.api.nvim_command("w")
 			end)
@@ -121,7 +128,12 @@ M.on_attach = function(client, bufnr)
 		client.server_capabilities.documentFormattingProvider = false
 	end
 
-	lsp_keymaps(bufnr)
+	if client.name ~= "tsserver" then
+		lsp_keymaps(bufnr, false)
+	else
+		lsp_keymaps(bufnr, true)
+	end
+
 	local status_ok, illuminate = pcall(require, "illuminate")
 	if not status_ok then
 		return

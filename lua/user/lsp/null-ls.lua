@@ -3,6 +3,11 @@ if not null_ls_status_ok then
 	return
 end
 
+local ts_ok, ts = pcall(require, "typescript.extensions.null-ls.code-actions")
+if not ts_ok then
+	return
+end
+
 -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
 local formatting = null_ls.builtins.formatting
 -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
@@ -14,6 +19,7 @@ null_ls.setup({
 		formatting.prettier.with({ extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" } }),
 		formatting.black.with({ extra_args = { "--fast" } }),
 		formatting.stylua,
-    -- diagnostics.flake8
+    ts
+		-- diagnostics.flake8
 	},
 })
