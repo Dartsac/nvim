@@ -101,6 +101,7 @@ local function lsp_keymaps(bufnr, isTsserver)
 	keymap(bufnr, "n", "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
 	if isTsserver == true then
 		keymap(bufnr, "n", "<leader>o", "<cmd>TypescriptAddMissingImports<CR>", opts)
+		keymap(bufnr, "n", "<leader>r", "<cmd>TypescriptRemoveUnused<CR>", opts)
 	end
 
 	-- Format on save
@@ -109,7 +110,8 @@ local function lsp_keymaps(bufnr, isTsserver)
 		buffer = bufnr,
 		callback = function()
 			if isTsserver == true then
-				require("typescript").actions.removeUnused({ sync = true })
+				-- I might want to remove the removeUnused function because this deletes entire functions before I have the chance to call them
+				-- require("typescript").actions.removeUnused({ sync = true })
 				require("typescript").actions.organizeImports({ sync = true })
 			end
 			vim.lsp.buf.format({ async = false }, function()
