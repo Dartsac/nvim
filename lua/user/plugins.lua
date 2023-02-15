@@ -61,6 +61,7 @@ return packer.startup(function(use)
 
 	-- Colorschemes
 	use({ "folke/tokyonight.nvim", commit = "66bfc2e8f754869c7b651f3f47a2ee56ae557764" })
+	use({ "tjdevries/colorbuddy.nvim" })
 
 	-- Colorizer for hex values
 	use({ "norcalli/nvim-colorizer.lua" })

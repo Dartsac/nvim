@@ -31,12 +31,12 @@ M.setup = function()
 
 	-- Define a table of configuration options for diagnostics
 	local config = {
-		virtual_text = false, -- Disable virtual text, which adds the diagnostic text given using gd, inline
+		virtual_text = true, -- Disable virtual text, which adds the diagnostic text given using gd, inline
 		signs = {
 			active = signs, -- Show signs for diagnostics
 		},
 		update_in_insert = true,
-		underline = true,
+		-- underline = true,
 		severity_sort = true,
 		float = {
 			focusable = true,
