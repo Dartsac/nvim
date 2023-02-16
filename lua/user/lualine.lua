@@ -62,12 +62,12 @@ lualine.setup({
 		lualine_c = {},
 		-- lualine_x = { "encoding", "fileformat", "filetype" },
 		lualine_x = {
-			diff,
 			{
 				"diagnostics",
 				sources = { "nvim_diagnostic" },
 				symbols = { error = " ", warn = " ", info = " ", hint = " " },
 			},
+			diff,
 			"encoding",
 			filetype,
 		},
