@@ -4,12 +4,13 @@ if not status_ok then
 end
 
 local actions = require("telescope.actions")
+local cwd = vim.fn.getcwd()
 
 telescope.setup({
 	defaults = {
 		-- prompt_prefix = " ",
 		-- selection_caret = " ",
-		path_display = { "smart" },
+		-- path_display = { "smart" },
 
 		mappings = {
 			i = {
@@ -41,4 +42,4 @@ telescope.setup({
 	},
 })
 
-vim.api.nvim_set_keymap("n", "<C-f>", ":Telescope find_files<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<C-f>", ":Telescope find_files cwd=" .. cwd .. "<CR>", { noremap = true, silent = true })
