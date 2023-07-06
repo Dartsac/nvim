@@ -124,6 +124,8 @@ end
 M.on_attach = function(client, bufnr)
 	if client.name == "tsserver" then
 		client.server_capabilities.documentFormattingProvider = false
+		-- This is currently called automatically by vim.lsp.buf_attach_client(). To opt-out of semantic highlighting with a server that supports it, you can delete the semanticTokensProvider table from the {server_capabilities} of your client in your LspAttach callback or your configuration's on_attach callback:
+		client.server_capabilities.semanticTokensProvider = nil -- https://neovim.io/doc/user/lsp.html#lsp-semantic_tokens
 	end
 
 	if client.name == "lua_ls" then
