@@ -1,8 +1,8 @@
 return {
-	init_options = {
+	initializationOptions = {
 		preferences = {
-			importModuleSpecifierPreference = "project=relative",
-			jsxAttributeCompletionStylr = "none",
+			importModuleSpecifierPreference = "project-relative",
+			jsxAttributeCompletionStyle = "none",
 		},
 	},
 }
