@@ -1,6 +1,9 @@
 return {
 	settings = {
 		Lua = {
+			semantic = {
+				enable = false,
+			},
 			diagnostics = {
 				globals = { "vim" },
 			},
