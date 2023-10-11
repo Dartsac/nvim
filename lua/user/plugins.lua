@@ -41,7 +41,10 @@ packer.init({
 -- Install your plugins here
 return packer.startup(function(use)
 	use({ "wbthomason/packer.nvim", commit = "6afb67460283f0e990d35d229fd38fdc04063e0a" }) -- Have packer manage itself
-	use({ "nvim-lua/plenary.nvim", commit = "4b7e52044bbb84242158d977a50c4cbcd85070c7" }) -- Useful lua functions used by lots of plugins
+	use({
+		"nvim-lua/plenary.nvim",
+		-- commit = "4b7e52044bbb84242158d977a50c4cbcd85070c7"
+	}) -- Useful lua functions used by lots of plugins
 	use({ "windwp/nvim-autopairs", commit = "4fc96c8f3df89b6d23e5092d31c866c53a346347" }) -- Autopairs, integrates with both cmp and treesitter
 	use({ "windwp/nvim-ts-autotag" }) -- Auto tag completion
 	use({ "axelvc/template-string.nvim" }) -- change to template string if it is a string and you use ${}
@@ -105,7 +108,10 @@ return packer.startup(function(use)
 	use("jose-elias-alvarez/typescript.nvim")
 
 	-- Telescope
-	use({ "nvim-telescope/telescope.nvim", commit = "76ea9a898d3307244dce3573392dcf2cc38f340f" })
+	use({
+		"nvim-telescope/telescope.nvim",
+		-- commit = "76ea9a898d3307244dce3573392dcf2cc38f340f"
+	})
 
 	-- Treesitter
 	use({
