@@ -1,12 +1,14 @@
--- local colorscheme = "dracula_pro_buffy"
---
--- local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)
--- if not status_ok then
--- 	return
--- end
-
 local cb = require("colorbuddy.init")
-cb.colorscheme("dracula_pro_buffy")
+
+-- Loading the colorscheme using vim.cmd but then using colorbuddy to override colors and groups
+local colorscheme = "dracula_pro_buffy"
+local status_ok, err = pcall(function()
+	vim.cmd("colorscheme " .. colorscheme)
+end)
+if not status_ok then
+	vim.notify("Failed to load colorscheme: " .. colorscheme .. "\n" .. err, vim.log.levels.ERROR)
+	return
+end
 
 local Color = cb.Color
 local colors = cb.colors
