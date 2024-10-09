@@ -32,7 +32,8 @@ wk.setup({
 		zindex = 1000,
 	},
 	icons = {
-		mappings = false,
+		mappings = true,
+		colors = true,
 	},
 	-- ignore_missing = true,
 	show_help = false,
