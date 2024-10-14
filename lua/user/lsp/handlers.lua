@@ -110,13 +110,16 @@ local function lsp_keymaps(bufnr, isTsserver)
 		buffer = bufnr,
 		callback = function()
 			if isTsserver == true then
-				-- I might want to remove the removeUnused function because this deletes entire functions before I have the chance to call them
+				-- Consider commenting out the line below if removeUnused is problematic
 				-- require("typescript").actions.removeUnused({ sync = true })
 				require("typescript").actions.organizeImports({ sync = true })
 			end
-			vim.lsp.buf.format({ async = false }, function()
-				vim.api.nvim_command("w")
-			end)
+			vim.lsp.buf.format({
+				async = false,
+				on_complete = function()
+					vim.api.nvim_command("w")
+				end,
+			})
 		end,
 	})
 end
