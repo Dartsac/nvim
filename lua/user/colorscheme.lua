@@ -1,5 +1,8 @@
 local cb = require("colorbuddy.init")
 
+-- Color.new(name, value)
+-- Group.new(name, foreground, background, style<bold, italic, underline, undercurl, reverse, NONE>, special<used for underlining or similar effects>)
+
 -- Loading the colorscheme using vim.cmd but then using colorbuddy to override colors and groups
 local colorscheme = "dracula_pro_buffy"
 local status_ok, err = pcall(function()
@@ -33,27 +36,29 @@ Color.new("thisBlue", "#7970A9")
 -- Color.new("purple", "#9580FF")
 Color.new("thisRed", "#FF9580")
 Color.new("thisYellow", "#FFFF80")
+Color.new("thisLightYellow", "#f4d88c")
+Color.new("thisDraculaWarnLine", "#ffca80")
 
 Group.new("Error", colors.thisRed)
-Group.new("Warning", colors.thisYellow)
+Group.new("Warning", colors.thisDraculaWarnLine)
 Group.new("Information", colors.thisBlue)
 Group.new("Hint", colors.thisCyan)
 
 Group.new("CursorLine", colors.none, colors.thisBgDark, styles.NONE, colors.thisSelection)
 Group.new("CursorLineNr", colors.thisYellow, colors.thisBgDarker, styles.NONE, colors.thisSelection)
-Group.new("Visual", colors.none, colors.thisBg, styles.reverse)
+Group.new("Visual", colors.none, colors.thisBgDarker, styles.reverse + styles.bold)
+
+Group.new("ErrorMsg", colors.thisBgDarker, colors.thisRed, styles.bold)
+Group.new("WarningMsg", colors.thisBgDarker, colors.thisLightYellow, styles.bold)
 
 local cError = groups.Error.fg
 local cInfo = groups.Information.fg
 local cWarn = groups.Warning.fg
 local cHint = groups.Hint.fg
 
-Group.new("DiagnosticVirtualTextError", colors.white, cError, styles.NONE)
-Group.new("DiagnosticVirtualTextWarn", colors.thisBgDarker, cWarn, styles.NONE)
+Group.new("DiagnosticVirtualTextError", colors.thisBgDarker, cError, styles.bold)
+Group.new("DiagnosticVirtualTextWarn", colors.thisBgDarker, cWarn, styles.bold)
 Group.new("DiagnosticVirtualTextInfo", colors.thisBgDarker, cInfo, styles.NONE)
 Group.new("DiagnosticVirtualTextHint", colors.thisBgDarker, cHint, styles.NONE)
 
-Group.new("DiagnosticUnderlineError", colors.none, colors.none, styles.undercurl, cError)
-Group.new("DiagnosticUnderlineWarn", colors.none, colors.none, styles.undercurl, cWarn)
-Group.new("DiagnosticUnderlineInfo", colors.none, colors.none, styles.undercurl, cInfo)
-Group.new("DiagnosticUnderlineHint", colors.none, colors.none, styles.undercurl, cHint)
+Group.new("DiagnosticUnderlineError", colors.thisRed, colors.none, styles.undercurl + styles.bold + styles.italic)
