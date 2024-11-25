@@ -23,6 +23,7 @@ require("user.indentline")
 require("user.whichkey")
 require("user.autocommands")
 require("user.miniicons")
+require("user.illuminate")
 vim.g.python3_host_prog = "~/.venvs/nvim/bin/python3"
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
