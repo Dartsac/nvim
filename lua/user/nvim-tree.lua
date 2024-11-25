@@ -8,6 +8,8 @@ if not config_status_ok then
 	return
 end
 
+require("user.miniicons")
+
 local tree_cb = nvim_tree_config.nvim_tree_callback
 
 local icons = require("user.icons")
@@ -23,6 +25,12 @@ nvim_tree.setup({
 	renderer = {
 		root_folder_modifier = ":t",
 		icons = {
+			show = {
+				file = true,
+				folder = true,
+				folder_arrow = true,
+				git = true,
+			},
 			glyphs = {
 				default = "",
 				symlink = "",

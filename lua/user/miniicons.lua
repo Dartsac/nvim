@@ -1,10 +1,4 @@
-local M = {
-	"echasnovski/mini.nvim",
-	version = false,
-}
-function M.config()
-	require("mini.icons").setup()
-	MiniIcons.mock_nvim_web_devicons()
-end
+local miniicons = require("mini.icons")
 
-return M
+miniicons.setup()
+miniicons.mock_nvim_web_devicons()
