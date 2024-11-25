@@ -10,6 +10,8 @@ end
 
 local tree_cb = nvim_tree_config.nvim_tree_callback
 
+local icons = require("user.icons")
+
 nvim_tree.setup({
 	update_focused_file = {
 		enable = true,
@@ -50,10 +52,10 @@ nvim_tree.setup({
 		enable = true,
 		show_on_dirs = true,
 		icons = {
-			hint = "",
-			info = "",
-			warning = "",
-			error = "",
+			hint = icons.diagnostics.BoldHint,
+			info = icons.diagnostics.BoldInformation,
+			warning = icons.diagnostics.BoldWarning,
+			error = icons.diagnostics.BoldError,
 		},
 	},
 	view = {
