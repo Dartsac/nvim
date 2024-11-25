@@ -46,7 +46,6 @@ Group.new("Hint", colors.thisCyan)
 
 Group.new("CursorLine", colors.none, colors.thisBgDark, styles.NONE, colors.thisSelection)
 Group.new("CursorLineNr", colors.thisYellow, colors.thisBgDarker, styles.NONE, colors.thisSelection)
-Group.new("Visual", colors.none, colors.thisBgDarker, styles.reverse + styles.bold)
 
 Group.new("ErrorMsg", colors.thisBgDarker, colors.thisRed, styles.bold)
 Group.new("WarningMsg", colors.thisBgDarker, colors.thisLightYellow, styles.bold)
@@ -67,3 +66,37 @@ Group.new("DiagnosticVirtualTextInfo", colors.thisBgDarker, cInfo, styles.NONE)
 Group.new("DiagnosticVirtualTextHint", colors.thisBgDarker, cHint, styles.NONE)
 
 Group.new("DiagnosticUnderlineError", colors.thisRed, colors.none, styles.undercurl + styles.bold + styles.italic)
+
+-- Highlight group for Visual mode
+vim.cmd("highlight Visual guibg=#454158 guifg=NONE gui=reverse,bold")
+
+-- Autocommand group for visual mode and cursor highlights
+vim.api.nvim_create_augroup("_visual_mode_highlight", { clear = true })
+
+-- Ensure Visual group is applied consistently on mode and window changes
+vim.api.nvim_create_autocmd({ "ModeChanged", "WinEnter", "VimEnter" }, {
+	group = "_visual_mode_highlight",
+	pattern = { "*" },
+	callback = function()
+		vim.cmd("highlight Visual guibg=#454158 guifg=NONE gui=reverse,bold")
+	end,
+})
+
+-- Disable vim-illuminate in visual mode and clear all highlights
+vim.api.nvim_create_autocmd("ModeChanged", {
+	group = vim.api.nvim_create_augroup("DebugIlluminateVisualMode", { clear = true }),
+	pattern = { "*:v", "*:V", "*:<C-v>" },
+	callback = function()
+		print("Entering visual mode: pausing illuminate")
+		vim.cmd("IlluminatePauseBuf")
+	end,
+})
+
+vim.api.nvim_create_autocmd("ModeChanged", {
+	group = vim.api.nvim_create_augroup("DebugIlluminateNormalMode", { clear = true }),
+	pattern = { "v:*", "V:*", "<C-v>:*" },
+	callback = function()
+		print("Exiting visual mode: resuming illuminate")
+		vim.cmd("IlluminateResumeBuf")
+	end,
+})
