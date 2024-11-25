@@ -51,6 +51,11 @@ Group.new("Visual", colors.none, colors.thisBgDarker, styles.reverse + styles.bo
 Group.new("ErrorMsg", colors.thisBgDarker, colors.thisRed, styles.bold)
 Group.new("WarningMsg", colors.thisBgDarker, colors.thisLightYellow, styles.bold)
 
+-- highlight color handling
+Group.new("IlluminatedWordText", colors.none, colors.thisSelection, styles.bold)
+Group.new("IlluminatedWordRead", colors.none, colors.thisSelection, styles.bold)
+Group.new("IlluminatedWordWrite", colors.none, colors.thisSelection, styles.bold)
+
 local cError = groups.Error.fg
 local cInfo = groups.Information.fg
 local cWarn = groups.Warning.fg
