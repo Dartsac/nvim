@@ -88,7 +88,6 @@ vim.api.nvim_create_autocmd("ModeChanged", {
 	group = vim.api.nvim_create_augroup("DebugIlluminateVisualMode", { clear = true }),
 	pattern = { "*:v", "*:V", "*:<C-v>" },
 	callback = function()
-		print("Entering visual mode: pausing illuminate")
 		vim.cmd("IlluminatePauseBuf")
 	end,
 })
@@ -97,7 +96,6 @@ vim.api.nvim_create_autocmd("ModeChanged", {
 	group = vim.api.nvim_create_augroup("DebugIlluminateNormalMode", { clear = true }),
 	pattern = { "v:*", "V:*", "<C-v>:*" },
 	callback = function()
-		print("Exiting visual mode: resuming illuminate")
 		vim.cmd("IlluminateResumeBuf")
 	end,
 })
