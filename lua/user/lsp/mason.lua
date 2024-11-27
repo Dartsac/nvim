@@ -6,7 +6,6 @@ local servers = {
 	"lua_ls",
 	"ts_ls",
 	"jdtls",
-	"sqlls",
 }
 
 local settings = {
