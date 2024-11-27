@@ -147,6 +147,11 @@ return packer.startup(function(use)
 	-- increase number limit for hlsearch
 	use({ "google/vim-searchindex" })
 
+	-- dadbod
+	use({ "tpope/vim-dadbod" })
+	use({ "kristijanhusak/vim-dadbod-ui" })
+	use({ "kristijanhusak/vim-dadbod-completion" })
+
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
 	if PACKER_BOOTSTRAP then
