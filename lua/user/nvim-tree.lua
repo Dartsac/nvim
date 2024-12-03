@@ -78,3 +78,17 @@ nvim_tree.setup({
 		},
 	},
 })
+
+vim.api.nvim_set_keymap(
+	"n", -- Normal mode
+	"+", -- Increase size
+	[[:lua if require("nvim-tree.view").is_visible() then vim.cmd("NvimTreeResize +5") end<CR>]],
+	{ noremap = true, silent = true }
+)
+
+vim.api.nvim_set_keymap(
+	"n", -- Normal mode
+	"=", -- Decrease size
+	[[:lua if require("nvim-tree.view").is_visible() then vim.cmd("NvimTreeResize -5") end<CR>]],
+	{ noremap = true, silent = true }
+)
