@@ -1,32 +1,35 @@
 local status_ok, comment = pcall(require, "Comment")
 if not status_ok then
-	return
+    return
+end
+
+-- Ensure ts_context_commentstring is available
+local ts_status_ok, ts_context_commentstring = pcall(require, "ts_context_commentstring")
+if not ts_status_ok then
+    return
 end
 
 comment.setup({
-	pre_hook = function(ctx)
-		local U = require("Comment.utils")
+    pre_hook = function(ctx)
+        local U = require("Comment.utils")
 
-		local status_utils_ok, utils = pcall(require, "ts_context_commentstring.utils")
-		if not status_utils_ok then
-			return
-		end
+        -- Determine the location of the commentstring calculation
+        local location = nil
+        if ctx.ctype == U.ctype.block then
+            location = require("ts_context_commentstring.utils").get_cursor_location()
+        elseif ctx.cmotion == U.cmotion.v or ctx.cmotion == U.cmotion.V then
+            location = require("ts_context_commentstring.utils").get_visual_start_location()
+        end
 
-		local location = nil
-		if ctx.ctype == U.ctype.block then
-			location = utils.get_cursor_location()
-		elseif ctx.cmotion == U.cmotion.v or ctx.cmotion == U.cmotion.V then
-			location = utils.get_visual_start_location()
-		end
+        -- Use ts_context_commentstring to calculate the correct commentstring
+        return require("ts_context_commentstring.internal").calculate_commentstring({
+            key = ctx.ctype == U.ctype.line and "__default" or "__multiline",
+            location = location,
+        })
+    end,
+})
 
-		local status_internals_ok, internals = pcall(require, "ts_context_commentstring.internals")
-		if not status_internals_ok then
-			return
-		end
-
-		return internals.calculate_commentstring({
-			key = ctx.ctype == U.ctype.line and "__default" or "__multiline",
-			location = location,
-		})
-	end,
+-- Optional: Set Treesitter context for commentstring handling
+require("ts_context_commentstring").setup({
+    enable_autocmd = false, -- Disable automatic context updates if not needed
 })
