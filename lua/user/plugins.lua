@@ -148,10 +148,13 @@ return packer.startup(function(use)
 	use({ "google/vim-searchindex" })
 
 	-- dadbod
-	use({ "tpope/vim-dadbod" })
-	use({ "kristijanhusak/vim-dadbod-ui" })
-	use({ "kristijanhusak/vim-dadbod-completion" })
-
+	use({
+		"tpope/vim-dadbod",
+		requires = {
+			"kristijanhusak/vim-dadbod-ui",
+			"kristijanhusak/vim-dadbod-completion",
+		},
+	})
 	use({ "smjonas/inc-rename.nvim" })
 
 	-- Automatically set up your configuration after cloning packer.nvim
