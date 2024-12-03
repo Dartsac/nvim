@@ -115,3 +115,11 @@ cmp.setup({
 		native_menu = false,
 	},
 })
+
+--sql specific dadbod completion
+cmp.setup.filetype({ "sql" }, {
+	sources = {
+		{ name = "vim-dadbod-completion" },
+		{ name = "buffer" },
+	},
+})
