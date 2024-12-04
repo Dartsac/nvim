@@ -1,71 +1,80 @@
-local status_ok, indent_blankline = pcall(require, "indent_blankline")
+-- Indent Blankline (ibl) setup
+local status_ok, ibl = pcall(require, "ibl")
 if not status_ok then
 	return
 end
 
-vim.g.indent_blankline_buftype_exclude = { "terminal", "nofile" }
-vim.g.indent_blankline_filetype_exclude = {
-	"help",
-	"startify",
-	"dashboard",
-	"packer",
-	"neogitstatus",
-	"NvimTree",
-	"Trouble",
-	"dbout",
-}
-vim.g.indentLine_enabled = 1
--- vim.g.indent_blankline_char = "│"
-vim.g.indent_blankline_char = "▏"
--- vim.g.indent_blankline_char = "▎"
-vim.g.indent_blankline_show_trailing_blankline_indent = false
-vim.g.indent_blankline_show_first_indent_level = true
-vim.g.indent_blankline_use_treesitter = true
-vim.g.indent_blankline_show_current_context = true
-vim.g.indent_blankline_context_patterns = {
-	"class",
-	"return",
-	"function",
-	"method",
-	"^if",
-	"^while",
-	"jsx_element",
-	"^for",
-	"^object",
-	"^table",
-	"block",
-	"arguments",
-	"if_statement",
-	"else_clause",
-	"jsx_element",
-	"jsx_self_closing_element",
-	"try_statement",
-	"catch_clause",
-	"import_statement",
-	"operation_type",
-}
--- HACK: work-around for https://github.com/lukas-reineke/indent-blankline.nvim/issues/59
-vim.wo.colorcolumn = "99999"
+ibl.setup({
+	indent = {
+		char = "▏",
+	},
+	scope = {
+		enabled = true,
+		show_start = false,
+		show_end = false,
+	},
+	exclude = {
+		buftypes = { "terminal", "nofile" },
+		filetypes = {
+			"help",
+			"startify",
+			"dashboard",
+			"packer",
+			"neogitstatus",
+			"NvimTree",
+			"Trouble",
+			"dbout",
+		},
+	},
+})
 
--- vim.cmd [[highlight IndentBlanklineIndent1 guifg=#E06C75 gui=nocombine]]
--- vim.cmd [[highlight IndentBlanklineIndent2 guifg=#E5C07B gui=nocombine]]
--- vim.cmd [[highlight IndentBlanklineIndent3 guifg=#98C379 gui=nocombine]]
--- vim.cmd [[highlight IndentBlanklineIndent4 guifg=#56B6C2 gui=nocombine]]
--- vim.cmd [[highlight IndentBlanklineIndent5 guifg=#61AFEF gui=nocombine]]
--- vim.cmd [[highlight IndentBlanklineIndent6 guifg=#C678DD gui=nocombine]]
--- vim.opt.list = true
--- vim.opt.listchars:append "space:⋅"
--- vim.opt.listchars:append "space:"
--- vim.opt.listchars:append "eol:↴"
+-- Mini IndentScope setup
+local status_ok_mini, indentscope = pcall(require, "mini.indentscope")
+if not status_ok_mini then
+	return
+end
 
-indent_blankline.setup({
-	-- show_end_of_line = true,
-	-- space_char_blankline = " ",
-	show_current_context = true,
-	-- show_current_context_start = true,
-	-- char_highlight_list = {
-	--   "IndentBlanklineIndent1",
-	--   "IndentBlanklineIndent2",
-	--   "IndentBlanklineIndent3",
-	-- },
+-- Disable mini.indentscope for excluded filetypes and buftypes
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = {
+		"help",
+		"startify",
+		"dashboard",
+		"packer",
+		"neogitstatus",
+		"NvimTree",
+		"Trouble",
+		"dbout",
+	},
+	callback = function()
+		vim.b.miniindentscope_disable = true
+	end,
+})
+
+vim.api.nvim_create_autocmd("BufEnter", {
+	callback = function()
+		local excluded_buftypes = { "terminal", "nofile" }
+		if vim.tbl_contains(excluded_buftypes, vim.bo.buftype) then
+			vim.b.miniindentscope_disable = true
+		end
+	end,
+})
+
+-- Setup mini.indentscope with default options
+indentscope.setup({
+	draw = {
+		delay = 0,
+		animation = indentscope.gen_animation.none(),
+	},
+	mappings = {
+		object_scope = "si",
+		goto_top = "[i",
+		goto_bottom = "]i",
+	},
+	options = {
+		border = "both",
+		indent_at_cursor = true,
+		try_as_border = false,
+	},
+	symbol = "▏",
 })
