@@ -3,18 +3,40 @@ if not status_ok then
 	return
 end
 
-local config_status_ok, nvim_tree_config = pcall(require, "nvim-tree.config")
-if not config_status_ok then
-	return
-end
-
+local icons = require("user.icons")
 require("user.miniicons")
 
-local tree_cb = nvim_tree_config.nvim_tree_callback
+local function on_attach(bufnr)
+	-- Helper function for key mappings
+	local function opts(desc)
+		return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+	end
 
-local icons = require("user.icons")
+	-- Bind keys manually
+	vim.keymap.set("n", "v", function()
+		local api = require("nvim-tree.api")
+		local node = api.tree.get_node_under_cursor()
+		if not node or not node.absolute_path then
+			--[[ print("Invalid node or missing absolute_path") ]]
+			return
+		end
+
+		local filepath = node.absolute_path
+		--[[ print("tmux_vsplit triggered for file: " .. filepath) ]]
+
+		-- Open file in a tmux vertical split
+		local cmd = string.format("tmux split-window -h 'nvim %s'", vim.fn.fnameescape(filepath))
+		os.execute(cmd)
+
+		-- close nvim-tree after splitting
+		api.tree.close()
+	end, opts("Vertical Split in tmux"))
+
+	-- Add any additional custom key mappings as needed
+end
 
 nvim_tree.setup({
+	on_attach = on_attach,
 	update_focused_file = {
 		enable = true,
 		update_cwd = true,
@@ -69,13 +91,6 @@ nvim_tree.setup({
 	view = {
 		width = 30,
 		side = "right",
-		mappings = {
-			list = {
-				{ key = { "<CR>", "o" }, cb = tree_cb("edit") },
-				{ key = "h", cb = tree_cb("close_node") },
-				{ key = "v", cb = tree_cb("vsplit") },
-			},
-		},
 	},
 })
 
