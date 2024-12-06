@@ -20,11 +20,6 @@ keymap("n", "<S-h>", ":bprevious<CR>", opts)
 --   command_mode = "c",
 
 -- Normal --
--- Better window navigation
-keymap("n", "<C-h>", "<C-w>h", opts)
-keymap("n", "<C-j>", "<C-w>j", opts)
-keymap("n", "<C-k>", "<C-w>k", opts)
-keymap("n", "<C-l>", "<C-w>l", opts)
 
 -- Insert --
 -- Press jk fast to exit insert mode
