@@ -32,6 +32,23 @@ local function on_attach(bufnr)
 		api.tree.close()
 	end, opts("Vertical Split in tmux"))
 
+	vim.keymap.set("n", "h", function()
+		local api = require("nvim-tree.api")
+		local node = api.tree.get_node_under_cursor()
+		if not node or not node.absolute_path then
+			return
+		end
+
+		local filepath = node.absolute_path
+
+		-- Open file in a tmux horizontal split
+		local cmd = string.format("tmux split-window -v 'nvim %s'", vim.fn.fnameescape(filepath))
+		os.execute(cmd)
+
+		-- close nvim-tree after splitting
+		api.tree.close()
+	end, opts("Horizontal Split in tmux"))
+
 	-- Add any additional custom key mappings as needed
 end
 
